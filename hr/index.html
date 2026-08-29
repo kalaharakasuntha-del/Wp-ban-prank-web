@@ -157,6 +157,7 @@ body{
         opacity:1;
         transform:scale(1);
     }
+
     50%{
         opacity:.3;
         transform:scale(.65);
@@ -179,6 +180,7 @@ body{
         opacity:0;
         transform:translateY(20px);
     }
+
     to{
         opacity:1;
         transform:translateY(0);
@@ -216,6 +218,7 @@ body{
             0 0 15px #00ff9d,
             0 0 35px rgba(0,255,157,.5);
     }
+
     50%{
         transform:scale(1.06);
         box-shadow:
@@ -280,9 +283,6 @@ body{
         0 0 15px rgba(0,255,157,.4),
         inset 0 0 20px rgba(0,255,157,.07);
 }
-
-
-/* BUTTON */
 
 .action-btn{
     position:relative;
@@ -354,6 +354,7 @@ body{
         box-shadow:
             0 0 8px rgba(0,255,157,.2);
     }
+
     50%{
         box-shadow:
             0 0 20px rgba(0,255,157,.6),
@@ -366,9 +367,11 @@ body{
         left:-50%;
         opacity:0;
     }
+
     15%{
         opacity:1;
     }
+
     100%{
         left:130%;
         opacity:0;
@@ -387,9 +390,6 @@ body{
 .action-btn:active{
     transform:scale(.97);
 }
-
-
-/* PROCESSING */
 
 .processing-title{
     margin-top:70px;
@@ -466,9 +466,6 @@ body{
     transition:width .55s ease;
 }
 
-
-/* RESULT */
-
 .result-screen{
     text-align:center;
 }
@@ -514,9 +511,6 @@ body{
     margin-top:50px;
 }
 
-
-/* FOOTER */
-
 .footer{
     position:absolute;
     bottom:20px;
@@ -529,9 +523,6 @@ body{
     color:#4b9470;
 }
 
-
-/* HIDDEN MUSIC VIDEO PLAYER */
-
 #protocolMusic{
     position:fixed;
     width:1px;
@@ -539,9 +530,6 @@ body{
     opacity:0;
     pointer-events:none;
 }
-
-
-/* MOBILE */
 
 @media(max-width:600px){
 
@@ -597,9 +585,6 @@ body{
 <div class="background-overlay"></div>
 <div class="background-glow"></div>
 
-
-<!-- MUSIC PLAYER FIX -->
-
 <video
     id="protocolMusic"
     playsinline
@@ -612,14 +597,12 @@ body{
     >
 </video>
 
-
 <div class="terminal">
 
     <div class="topbar">
         <span>ACCOUNT_CONTROL_TERMINAL</span>
         <div class="status"></div>
     </div>
-
 
     <!-- HOME -->
 
@@ -649,11 +632,17 @@ body{
                 TARGET NUMBER
             </label>
 
+            <!-- NUMBER ONLY INPUT -->
+
             <input
                 type="tel"
                 id="phoneNumber"
                 class="number-input"
-                placeholder="+94 XX XXX XXXX"
+                placeholder="07XXXXXXXX or 94XXXXXXXXX"
+                inputmode="numeric"
+                maxlength="11"
+                autocomplete="off"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'')"
             >
 
             <button
@@ -667,7 +656,6 @@ body{
         </div>
 
     </div>
-
 
     <!-- PROCESSING -->
 
@@ -683,10 +671,12 @@ body{
         ></div>
 
         <div class="progress-container">
+
             <div
                 class="progress"
                 id="progress"
             ></div>
+
         </div>
 
         <p class="subtitle">
@@ -694,7 +684,6 @@ body{
         </p>
 
     </div>
-
 
     <!-- RESULT -->
 
@@ -712,7 +701,7 @@ body{
             class="number-result"
             id="resultNumber"
         >
-            +94XXXXXXXXX
+            07XXXXXXXX
         </div>
 
         <p class="result-text">
@@ -730,13 +719,11 @@ body{
 
     </div>
 
-
     <div class="footer">
-        DESIGNED BY VENOMX SYSTEM
+        DESIGNED BY VENOMX 🫆
     </div>
 
 </div>
-
 
 <script>
 
@@ -745,50 +732,40 @@ body{
 ===================================== */
 
 const canvas =
-document.getElementById("matrixCanvas");
+    document.getElementById("matrixCanvas");
 
 const ctx =
-canvas.getContext("2d");
+    canvas.getContext("2d");
 
 const fontSize = 18;
 
 const characters =
-"0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%&@{}[]<>/\\|+-=!?";
+    "0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%&@{}[]<>/\\|+-=!?";
 
 let columns;
 let drops;
 let speeds;
 
-
 function resizeMatrix(){
 
-    canvas.width =
-    window.innerWidth;
-
-    canvas.height =
-    window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     columns =
-    Math.floor(
-        canvas.width / fontSize
-    );
+        Math.floor(canvas.width / fontSize);
 
     drops =
-    Array.from(
-        {length:columns},
-        () =>
-        Math.random() *
-        -canvas.height / fontSize
-    );
+        Array.from(
+            {length:columns},
+            () => Math.random() * -canvas.height / fontSize
+        );
 
     speeds =
-    Array.from(
-        {length:columns},
-        () =>
-        0.5 + Math.random() * 1.5
-    );
+        Array.from(
+            {length:columns},
+            () => 0.5 + Math.random() * 1.5
+        );
 }
-
 
 resizeMatrix();
 
@@ -797,11 +774,10 @@ window.addEventListener(
     resizeMatrix
 );
 
-
 function drawMatrix(){
 
     ctx.fillStyle =
-    "rgba(0,3,2,0.09)";
+        "rgba(0,3,2,0.09)";
 
     ctx.fillRect(
         0,
@@ -811,10 +787,7 @@ function drawMatrix(){
     );
 
     ctx.font =
-    "bold " +
-    fontSize +
-    "px monospace";
-
+        "bold " + fontSize + "px monospace";
 
     for(
         let i = 0;
@@ -823,27 +796,25 @@ function drawMatrix(){
     ){
 
         const text =
-        characters[
-            Math.floor(
-                Math.random() *
-                characters.length
-            )
-        ];
+            characters[
+                Math.floor(
+                    Math.random() * characters.length
+                )
+            ];
 
         const brightness =
-        Math.floor(
-            150 +
-            Math.random() * 105
-        );
+            Math.floor(
+                150 + Math.random() * 105
+            );
 
         ctx.fillStyle =
-        `rgb(0,${brightness},${Math.floor(brightness * 0.62)})`;
+            `rgb(0,${brightness},${Math.floor(brightness * 0.62)})`;
 
         ctx.shadowColor =
-        "#00ff9d";
+            "#00ff9d";
 
         ctx.shadowBlur =
-        Math.random() * 10;
+            Math.random() * 10;
 
         ctx.fillText(
             text,
@@ -857,38 +828,30 @@ function drawMatrix(){
 
         if(
             drops[i] * fontSize >
-            canvas.height + 30
-            &&
+            canvas.height + 30 &&
             Math.random() > 0.97
         ){
 
             drops[i] =
-            Math.random() * -50;
-
+                Math.random() * -50;
         }
-
     }
 
     requestAnimationFrame(drawMatrix);
 }
 
-
 drawMatrix();
 
 
-
 /* =====================================
-   MUSIC FIX
+   MUSIC
 ===================================== */
 
 const music =
-document.getElementById("protocolMusic");
+    document.getElementById("protocolMusic");
 
 music.loop = true;
 music.volume = 0.8;
-
-
-/* Show errors in console for debugging */
 
 music.addEventListener(
     "error",
@@ -902,43 +865,34 @@ music.addEventListener(
     }
 );
 
-
 function playMusic(){
 
-    /* Make sure it is not muted */
-
     music.muted = false;
-
     music.volume = 0.8;
 
-
     const playPromise =
-    music.play();
-
+        music.play();
 
     if(playPromise !== undefined){
 
         playPromise
-        .then(() => {
+            .then(() => {
 
-            console.log(
-                "Music started successfully"
-            );
+                console.log(
+                    "Music started successfully"
+                );
 
-        })
-        .catch(error => {
+            })
+            .catch(error => {
 
-            console.log(
-                "Music playback error:",
-                error
-            );
+                console.log(
+                    "Music playback error:",
+                    error
+                );
 
-        });
-
+            });
     }
-
 }
-
 
 
 /* =====================================
@@ -967,55 +921,81 @@ const messages = [
 
 
 /* =====================================
+   NUMBER VALIDATION
+===================================== */
+
+/*
+   Allowed:
+
+   07XXXXXXXX   = 10 digits
+   94XXXXXXXXX  = 11 digits
+
+   Only numbers.
+*/
+
+function isValidNumber(number){
+
+    return /^(07\d{8}|94\d{9})$/.test(number);
+
+}
+
+
+/* =====================================
    START PROCESS
 ===================================== */
 
 function startProcess(){
 
     const number =
-    document
-    .getElementById("phoneNumber")
-    .value
-    .trim();
+        document
+        .getElementById("phoneNumber")
+        .value
+        .trim();
 
+    /*
+       Validate number
+    */
 
-    if(number === ""){
+    if(!isValidNumber(number)){
 
         alert(
-            "Please enter a number!"
+            "Invalid number!\n\n" +
+            "Use only:\n" +
+            "07XXXXXXXX  (10 digits)\n" +
+            "94XXXXXXXXX (11 digits)"
         );
 
         return;
-
     }
 
 
     /*
-       START MUSIC DIRECTLY
-       FROM USER BUTTON CLICK
+       Start music from button click
     */
 
     playMusic();
 
 
-    document
-    .getElementById("homeScreen")
-    .classList
-    .remove("active");
-
+    /*
+       Change screen
+    */
 
     document
-    .getElementById("processingScreen")
-    .classList
-    .add("active");
+        .getElementById("homeScreen")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("processingScreen")
+        .classList
+        .add("active");
 
 
     const messageBox =
-    document.getElementById("messageBox");
-
+        document.getElementById("messageBox");
 
     const progress =
-    document.getElementById("progress");
+        document.getElementById("progress");
 
 
     messageBox.innerHTML = "";
@@ -1027,57 +1007,57 @@ function startProcess(){
 
 
     const interval =
-    setInterval(() => {
+        setInterval(() => {
 
-        if(index < messages.length){
+            if(index < messages.length){
 
-            const message =
-            document.createElement("div");
+                const message =
+                    document.createElement("div");
 
-            message.className =
-            "message";
+                message.className =
+                    "message";
 
-            message.innerText =
-            messages[index];
+                message.innerText =
+                    messages[index];
 
-            messageBox.appendChild(message);
-
-
-            setTimeout(() => {
-
-                message.classList.add("show");
-
-            },100);
+                messageBox.appendChild(message);
 
 
-            messageBox.scrollTop =
-            messageBox.scrollHeight;
+                setTimeout(() => {
+
+                    message.classList.add("show");
+
+                },100);
 
 
-            progress.style.width =
-            (
-                ((index + 1) /
-                messages.length) * 100
-            ) + "%";
+                messageBox.scrollTop =
+                    messageBox.scrollHeight;
 
 
-            index++;
+                progress.style.width =
+                    (
+                        ((index + 1) /
+                        messages.length) * 100
+                    ) + "%";
 
-        }
 
-        else{
+                index++;
 
-            clearInterval(interval);
+            }
 
-            setTimeout(() => {
+            else{
 
-                showResult(number);
+                clearInterval(interval);
 
-            },1500);
+                setTimeout(() => {
 
-        }
+                    showResult(number);
 
-    },900);
+                },1500);
+
+            }
+
+        },900);
 
 }
 
@@ -1089,21 +1069,19 @@ function startProcess(){
 function showResult(number){
 
     document
-    .getElementById("processingScreen")
-    .classList
-    .remove("active");
-
-
-    document
-    .getElementById("resultScreen")
-    .classList
-    .add("active");
-
+        .getElementById("processingScreen")
+        .classList
+        .remove("active");
 
     document
-    .getElementById("resultNumber")
-    .innerText =
-    number;
+        .getElementById("resultScreen")
+        .classList
+        .add("active");
+
+    document
+        .getElementById("resultNumber")
+        .innerText =
+        number;
 
 }
 
@@ -1115,23 +1093,18 @@ function showResult(number){
 function returnHome(){
 
     document
-    .getElementById("resultScreen")
-    .classList
-    .remove("active");
-
-
-    document
-    .getElementById("homeScreen")
-    .classList
-    .add("active");
-
+        .getElementById("resultScreen")
+        .classList
+        .remove("active");
 
     document
-    .getElementById("phoneNumber")
-    .value = "";
+        .getElementById("homeScreen")
+        .classList
+        .add("active");
 
-
-    /* Music continues */
+    document
+        .getElementById("phoneNumber")
+        .value = "";
 
 }
 
